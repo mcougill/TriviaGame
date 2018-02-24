@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Totes McGoats Trivia</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href=./assets/css/style.css>
+</head>
+
+<body>
+    <h1>Totes McGoats Trivia</h1>
+    <div>
+        <h2>What chemical element gives the blood of a lobster a bluish tint?</h2>
+        <ul>
+            <li>Copper</li>
+            <li>Oxygen</li>
+            <li>Iron</li>
+            <li>Sulfur</li>
+        </ul>
+    </div>
+
+</body>
+<script type="text/javascript">
+//put all questions & answers into an object
+var triviaQuestions = {
+question1: {
+    question: "How many breeds of goats are there?",
+    answers:["150","25","12","300"],
+    correctAnswer: 3
+
+},
+question2: {
+    question: "What chemical element gives the blood of a lobster a bluish tint?",
+    answers: ["Copper","Oxygen","Iron","Sulfur"],
+    correctAnswer: 0
+},
+question3: {
+    question: "The llama is a domesticated camelid that is native to which continent?",
+    answers: ["Australia","South America","Africa","Europe"],
+    correctAnswer: 1
+},
+question4: {
+    question: "What was the name of the gorilla that was shot and killed at the Cincinnati zoo in 2016 after a 3 year old boyn fell into the enclosure?",
+    answers: ["Zeus","Tony","Cecil","Harambe"],
+    correctAnswer: 3
+},
+question5: {
+    question: "What is the name for a male bee that comes from an unfertilized egg?",
+    answers: ["Drone","Boy Bee","Zote","Lorx"],
+    correctAnswer: 0
+},
+question6: {
+    question: "Cynophobia is the fear of what kind of animal?",
+    answers: ["Cats","Dogs","Fish","Spiders"],
+    correctAnswer: 1
+},
+question7: {
+    question: "A flamboyance is a group of what animal?",
+    answers: ["Peacocks","Ocelots","Flamingos","Goats"],
+    correctAnswer: 2
+},
+question8: {
+    question: "What is the national animal of Scotland?",
+    answers: ["Unicorn","Goat","Scottie Dog","Puffin"],
+    correctAnswer: 0
+},
+question9: {
+    question: "How many hearts does an octopus have?",
+    answers: ["1","7","3","5"],
+    correctAnswer: 2
+},
+question10: {
+    question: "What is the sleepiest animal in the world, sleeping around 22 hours each day?",
+    answers: ["Cheetah","Blue Whale","Red Fox","Koala"],
+    correctAnswer: 3
+}
+}
+//loop over triviaQuestions object to show 1 question at a time
+//indicate which answer is correct 
+//if player selects correct answer, show screen congratulating them then display next question (without user input)
+//if player selects incorrect answer, show user correct answer then display next question (without user input)
+//if player runs out of time, tell user they ran out of time, show user correct answer then display next question (without user input)
+//show user final score and ask if they want to play again
+//look at timeouts and timers
+</script>
+
+</html>
