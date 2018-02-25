@@ -13,73 +13,161 @@
 </head>
 
 <body>
-    <h1>Totes McGoats Trivia</h1>
-    <div>
-        <h2>What chemical element gives the blood of a lobster a bluish tint?</h2>
-        <ul>
-            <li>Copper</li>
-            <li>Oxygen</li>
-            <li>Iron</li>
-            <li>Sulfur</li>
-        </ul>
-    </div>
+        <div class="container-fluid">
+                <div class="row">
+                    <h1 class="text-center">Totes McGoats Trivia</h1>
+                </div>
+                <div class="row text-center">
+                    <div id="time">Time</div><br>
+                    <div id="question">Question</div><br>
+                    <div id="score"></div>
+                    <button class="btn" id="start">Start</button><br>
+                    <button class="btn btnAnswer" id="answer0" value=0>1</button><br>
+                    <button class="btn btnAnswer" id="answer1" value=1>2</button><br>
+                    <button class="btn btnAnswer" id="answer2" value=2>3</button><br>
+                    <button class="btn btnAnswer" id="answer3" value=3>4</button>
+                    <div id="gifHolder"></div>
+                </div>
+            </div>
 
 </body>
 <script type="text/javascript">
-//put all questions & answers into an object
-var triviaQuestions = {
-question1: {
-    question: "How many breeds of goats are there?",
-    answers:["150","25","12","300"],
-    correctAnswer: 3
+$(document).ready(function() {
+        var correct, incorrect, questionArray,index;
+        //put all questions & answers into an object
+        triviaQuestions();
 
-},
-question2: {
-    question: "What chemical element gives the blood of a lobster a bluish tint?",
-    answers: ["Copper","Oxygen","Iron","Sulfur"],
-    correctAnswer: 0
-},
-question3: {
-    question: "The llama is a domesticated camelid that is native to which continent?",
-    answers: ["Australia","South America","Africa","Europe"],
-    correctAnswer: 1
-},
-question4: {
-    question: "What was the name of the gorilla that was shot and killed at the Cincinnati zoo in 2016 after a 3 year old boyn fell into the enclosure?",
-    answers: ["Zeus","Tony","Cecil","Harambe"],
-    correctAnswer: 3
-},
-question5: {
-    question: "What is the name for a male bee that comes from an unfertilized egg?",
-    answers: ["Drone","Boy Bee","Zote","Lorx"],
-    correctAnswer: 0
-},
-question6: {
-    question: "Cynophobia is the fear of what kind of animal?",
-    answers: ["Cats","Dogs","Fish","Spiders"],
-    correctAnswer: 1
-},
-question7: {
-    question: "A flamboyance is a group of what animal?",
-    answers: ["Peacocks","Ocelots","Flamingos","Goats"],
-    correctAnswer: 2
-},
-question8: {
-    question: "What is the national animal of Scotland?",
-    answers: ["Unicorn","Goat","Scottie Dog","Puffin"],
-    correctAnswer: 0
-},
-question9: {
-    question: "How many hearts does an octopus have?",
-    answers: ["1","7","3","5"],
-    correctAnswer: 2
-},
-question10: {
-    question: "What is the sleepiest animal in the world, sleeping around 22 hours each day?",
-    answers: ["Cheetah","Blue Whale","Red Fox","Koala"],
-    correctAnswer: 3
-}
-}
+        function triviaQuestions() {
+            questionArray = [{
+                question: "How many breeds of goats are there?",
+                answers: ["150", "25", "12", "300"],
+                correctAnswer: 3
+            },
+            {
+                question: "What chemical element gives the blood of a lobster a bluish tint?",
+                answers: ["Copper", "Oxygen", "Iron", "Sulfur"],
+                correctAnswer: 0
+            },
+            {
+                question: "The llama is a domesticated camelid that is native to which continent?",
+                answers: ["Australia", "South America", "Africa", "Europe"],
+                correctAnswer: 1
+            },
+            {
+                question: "What was the name of the gorilla that was shot and killed at the Cincinnati zoo in 2016 after a 3 year old boyn fell into the enclosure?",
+                answers: ["Zeus", "Tony", "Cecil", "Harambe"],
+                correctAnswer: 3
+            },
+            {
+                question: "What is the name for a male bee that comes from an unfertilized egg?",
+                answers: ["Drone", "Boy Bee", "Zote", "Lorx"],
+                correctAnswer: 0
+            },
+            {
+                question: "Cynophobia is the fear of what kind of animal?",
+                answers: ["Cats", "Dogs", "Fish", "Spiders"],
+                correctAnswer: 1
+            },
+            {
+                question: "A flamboyance is a group of what animal?",
+                answers: ["Peacocks", "Ocelots", "Flamingos", "Goats"],
+                correctAnswer: 2
+            },
+            {
+                question: "What is the national animal of Scotland?",
+                answers: ["Unicorn", "Goat", "Scottie Dog", "Puffin"],
+                correctAnswer: 0
+            },
+            {
+                question: "How many hearts does an octopus have?",
+                answers: ["1", "7", "3", "5"],
+                correctAnswer: 2
+            },
+            {
+                question: "What is the sleepiest animal in the world, sleeping around 22 hours each day?",
+                answers: ["Cheetah", "Blue Whale", "Red Fox", "Koala"],
+                correctAnswer: 3
+            }
+            ]
+            correct=0;
+            incorrect=0;
+            index=-1;
+            $("#answer0, #answer1, #answer2, #answer3,#question").hide().off("click");
+            
+
+            $("#start").on("click",function(){
+                console.log("clicked start");
+                proceed();
+                
+            })  
+        }
+
+       
+        function proceed(){
+           index++;
+          if(index<questionArray.length){
+              promptQuestion();
+          }
+          else {
+              gameOver();
+          }
+        }
+
+        function promptQuestion(){
+           $("#question").show().html(questionArray[index].question);
+           $("#answer0").show().html(questionArray[index].answers[0]);
+           $("#answer1").show().html(questionArray[index].answers[1]);
+           $("#answer2").show().html(questionArray[index].answers[2]);
+           $("#answer3").show().html(questionArray[index].answers[3]);
+           console.log(questionArray[index].answers[0]);
+           $("#start").hide().off("click");
+           clickAnswer();
+        }
+
+        function clickAnswer(){
+           $ (".btnAnswer").on("click",function(){
+               var buttonClick = parseInt($(this).attr("value"));
+               if(buttonClick===questionArray[index].correctAnswer){
+                   rightAnswer();
+               }
+               else {
+                   wrongAnswer();
+               }
+           })
+        }
+
+        function rightAnswer(){
+          correct++;
+          $("#question").html("<h2>Correct!</h2>");
+          $("#answer0, #answer1, #answer2, #answer3").hide().off("click");
+          $("#start").show().text("Ready for next question?")
+          $("#start").on("click",function(){
+                console.log("clicked ready");
+                proceed();
+        })
+    }
+
+        function wrongAnswer(){
+            incorrect++;
+          $("#question").html("<h2>Nope!</h2>");
+          $("#answer0, #answer1, #answer2, #answer3").hide().off("click");
+          $("#start").show().text("Ready for next question?")
+          $("#start").on("click",function(){
+                console.log("clicked ready");
+                proceed();
+        })
+        }
+
+        function gameOver(){
+            $("#question").html("<h2>Good Job!</h2>");
+            $("#score").html("Your results: <br><br>Correct: " + correct + "<br>Incorrect: " + incorrect);
+            $("#start").hide().off("click");
+        }
+        
+         
+});
+
+//
 //loop over triviaQuestions object to show 1 question at a time
 //indicate which answer is correct 
 //if player selects correct answer, show screen congratulating them then display next question (without user input)
