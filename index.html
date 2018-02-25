@@ -35,9 +35,27 @@
 <script type="text/javascript">
 $(document).ready(function() {
         var correct, incorrect, questionArray,index
+        //build timer
+        var timer = {
+            time:30,
+            count: function(){
+                timer.time --;
+                $("#time").html("Time Remaining: "+ timer.time);
+            },
+            start: function(){
+                $("#time").html("Time Remaining: "+ timer.time);
+                counter= setInterval(time.time,1000);
+            },
+            stop: function(){
+                clearInterval(counter);
+            },
+            reset: function(){
+                timer.time=30;
+            }
+           
+        }
         //put all questions & answers into an object
         triviaQuestions();
-
         function triviaQuestions() {
             questionArray = [{
                 question: "How many breeds of goats are there?",
@@ -100,25 +118,20 @@ $(document).ready(function() {
         }
         function start(){
             $("#start").on("click",function(){
-                console.log("clicked start");
                 proceed();
                 
             })  
         }
-
        
         function proceed(){
            index++;
           if(index<questionArray.length){
               promptQuestion();
-
           }
           else {
               gameOver();
           }
         }
-
-
         function promptQuestion(){
             
            $("#question").show().html(questionArray[index].question);
@@ -126,11 +139,9 @@ $(document).ready(function() {
            $("#answer1").show().html(questionArray[index].answers[1]);
            $("#answer2").show().html(questionArray[index].answers[2]);
            $("#answer3").show().html(questionArray[index].answers[3]);
-           console.log(questionArray[index].answers[0]);
            $("#start").hide().off("click");
            clickAnswer();
         }
-
         function clickAnswer(){
            $ (".btnAnswer").on("click",function(){
                var buttonClick = parseInt($(this).attr("value"));
@@ -142,7 +153,6 @@ $(document).ready(function() {
                }
            })
         }
-
         function rightAnswer(){
          
           correct++;
@@ -152,12 +162,10 @@ $(document).ready(function() {
           $("#answer0, #answer1, #answer2, #answer3").hide().off("click");
           $("#start").show().text("Ready for next question?")
           $("#start").on("click",function(){
-                console.log("clicked ready");
                 proceed();
         })
        
     }
-
         function wrongAnswer(){
           
             incorrect++;
@@ -165,12 +173,10 @@ $(document).ready(function() {
           $("#answer0, #answer1, #answer2, #answer3").hide().off("click");
           $("#start").show().text("Ready for next question?")
           $("#start").on("click",function(){
-                console.log("clicked ready");
                 proceed();
         })
         
         }
-
         function gameOver(){
             $("#question").html("<h2>Good Job!</h2>");
             $("#score").show().html("Your results: <br><br>Correct: " + correct + "<br>Incorrect: " + incorrect);
@@ -185,7 +191,6 @@ $(document).ready(function() {
         
          
 });
-
 //
 //loop over triviaQuestions object to show 1 question at a time
 //indicate which answer is correct 
