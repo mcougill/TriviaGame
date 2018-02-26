@@ -10,49 +10,56 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
         crossorigin="anonymous">
     <link rel="stylesheet" href=./assets/css/style.css>
+    <link href="https://fonts.googleapis.com/css?family=Assistant|Bangers" rel="stylesheet">
 </head>
 
 <body>
-        <div class="container-fluid">
-                <div class="row">
-                    <h1 class="text-center">Totes McGoats Trivia</h1>
-                </div>
-                <div class="row text-center">
-                    <div id="time">Time</div><br>
-                    <div id="question">Question</div><br>
-                    <div id="score"></div>
-                    <button class="btn" id="start">Start</button><br>
-                    <button class="btn btnAnswer" id="answer0" value=0>1</button><br>
-                    <button class="btn btnAnswer" id="answer1" value=1>2</button><br>
-                    <button class="btn btnAnswer" id="answer2" value=2>3</button><br>
-                    <button class="btn btnAnswer" id="answer3" value=3>4</button><br>
-                    <button class="btn" id="again">Play again?</button>
-                    <div id="gifHolder"></div>
-                </div>
-            </div>
+    <div class="container-fluid">
+        <div class="row">
+            <h1 class="text-center">Totes McGoats Trivia</h1>
+        </div>
+        <div class="row text-center quiz">
+            <div id="time">Time</div>
+            <br>
+            <div id="score"></div>
+            <div id="question">Question</div>
+            <br>
+            <button class="btn" id="start">Start</button>
+            <br>
+            <button class="btn btnAnswer" id="answer0" value=0>1</button>
+            <br>
+            <button class="btn btnAnswer" id="answer1" value=1>2</button>
+            <br>
+            <button class="btn btnAnswer" id="answer2" value=2>3</button>
+            <br>
+            <button class="btn btnAnswer" id="answer3" value=3>4</button>
+            <br>
+            <button class="btn" id="again">Play again?</button>
+        </div>
+    </div>
 
 </body>
 <script type="text/javascript">
-$(document).ready(function() {
-        var correct, incorrect, questionArray,index
+    $(document).ready(function () {
+        var correct, incorrect, questionArray, index, timeIsUp;
         //build timer
         var timer = {
-            time:30,
-            count: function(){
-                timer.time --;
-                $("#time").html("Time Remaining: "+ timer.time);
+            time: 30,
+            count: function () {
+                timer.time--;
+                $("#time").html("Time Remaining: " + timer.time);
             },
-            start: function(){
-                $("#time").html("Time Remaining: "+ timer.time);
-                counter= setInterval(time.time,1000);
+            start: function () {
+                $("#time").html("Time Remaining: " + timer.time);
+                counter = setInterval(timer.count, 1000);
             },
-            stop: function(){
+            stop: function () {
                 clearInterval(counter);
             },
-            reset: function(){
-                timer.time=30;
+            reset: function () {
+                timer.time = 30;
             }
-           
+
         }
         //put all questions & answers into an object
         triviaQuestions();
@@ -108,89 +115,96 @@ $(document).ready(function() {
                 correctAnswer: 3
             }
             ]
-            correct=0;
-            incorrect=0;
-            index=-1;
-            $("#answer0, #answer1, #answer2, #answer3,#question, #again, #score").hide().off("click");
-            
+            correct = 0;
+            incorrect = 0;
+            index = -1;
+            $("#answer0, #answer1, #answer2, #answer3,#question, #again, #score, #time").hide().off("click");
+
             start();
-            
+
         }
-        function start(){
-            $("#start").on("click",function(){
+        function start() {
+            timer.reset();
+            $("#start").on("click", function () {
+                $("#time").show();
+                $(".quiz").css("background-color", "rgba(250,235,215,.5)")
                 proceed();
-                
-            })  
+
+            })
         }
-       
-        function proceed(){
-           index++;
-          if(index<questionArray.length){
-              promptQuestion();
-          }
-          else {
-              gameOver();
-          }
+
+        function proceed() {
+            index++;
+            if (index < questionArray.length) {
+                promptQuestion();
+            }
+            else {
+                gameOver();
+            }
         }
-        function promptQuestion(){
-            
-           $("#question").show().html(questionArray[index].question);
-           $("#answer0").show().html(questionArray[index].answers[0]);
-           $("#answer1").show().html(questionArray[index].answers[1]);
-           $("#answer2").show().html(questionArray[index].answers[2]);
-           $("#answer3").show().html(questionArray[index].answers[3]);
-           $("#start").hide().off("click");
-           clickAnswer();
+        function promptQuestion() {
+            timer.start();
+            $("#question").show().html(questionArray[index].question);
+            $("#answer0").show().html(questionArray[index].answers[0]);
+            $("#answer1").show().html(questionArray[index].answers[1]);
+            $("#answer2").show().html(questionArray[index].answers[2]);
+            $("#answer3").show().html(questionArray[index].answers[3]);
+            $("#start").hide().off("click");
+            clickAnswer();
         }
-        function clickAnswer(){
-           $ (".btnAnswer").on("click",function(){
-               var buttonClick = parseInt($(this).attr("value"));
-               if(buttonClick===questionArray[index].correctAnswer){
-                   rightAnswer();
-               }
-               else {
-                   wrongAnswer();
-               }
-           })
+        function clickAnswer() {
+            $(".btnAnswer").on("click", function () {
+                var buttonClick = parseInt($(this).attr("value"));
+                if (buttonClick === questionArray[index].correctAnswer) {
+                    rightAnswer();
+                }
+                else {
+                    wrongAnswer();
+                }
+            })
         }
-        function rightAnswer(){
-         
-          correct++;
-         
-          
-          $("#question").html("<h2>Correct!</h2>");
-          $("#answer0, #answer1, #answer2, #answer3").hide().off("click");
-          $("#start").show().text("Ready for next question?")
-          $("#start").on("click",function(){
+        function rightAnswer() {
+            clearTimeout(timeIsUp);
+            correct++;
+            timer.stop();
+            timer.reset();
+            $("#time").empty();
+            $("#question").html("<h2>Correct!</h2>");
+            $("#answer0, #answer1, #answer2, #answer3").hide().off("click");
+            $("#start").show().text("Ready for next question?")
+            $("#start").on("click", function () {
                 proceed();
-        })
-       
-    }
-        function wrongAnswer(){
-          
+            })
+
+        }
+        function wrongAnswer() {
+            clearTimeout(timeIsUp);
             incorrect++;
-          $("#question").html("<h2>Nope!</h2>");
-          $("#answer0, #answer1, #answer2, #answer3").hide().off("click");
-          $("#start").show().text("Ready for next question?")
-          $("#start").on("click",function(){
+            timer.stop();
+            timer.reset();
+            $("#time").empty();
+            $("#question").html("<h2>Nope!</h2>");
+            $("#answer0, #answer1, #answer2, #answer3").hide().off("click");
+            $("#start").show().text("Ready for next question?")
+            $("#start").on("click", function () {
                 proceed();
-        })
-        
+            })
+
         }
-        function gameOver(){
+        function gameOver() {
             $("#question").html("<h2>Good Job!</h2>");
             $("#score").show().html("Your results: <br><br>Correct: " + correct + "<br>Incorrect: " + incorrect);
             $("#start").hide().off("click");
             $("#start").show().text("Play again?");
-            $("#start").on("click",function(){
+            $("#start").on("click", function () {
                 triviaQuestions();
                 $("#start").text("Let's Start");
-               
+
             })
         }
-        
-         
-});
+
+
+    });
 //
 //loop over triviaQuestions object to show 1 question at a time
 //indicate which answer is correct 

@@ -1,0 +1,23 @@
+body {
+    background-image: url("../images/goat.jpeg");
+    background-size: cover;
+    color:rgb(250,235,215);
+    font-family: 'Assistant', sans-serif;
+    font-size: 30px;
+}
+
+.btn {
+    background-color:rgb(250,235,215);
+    margin-bottom:5px;
+}
+
+h1 {
+    font-family: 'Bangers', cursive;
+    font-size:100px;
+}
+
+.quiz {
+    color:#36454f;
+    margin:auto;
+    width:50%;
+}
